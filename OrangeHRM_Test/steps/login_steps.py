@@ -16,20 +16,32 @@ def step_impl(context):
 
 @when('I enter "{username}" as username')
 def step_impl(context, username):
-    username_input = context.driver.find_element_by_id("txtUsername")
+    wait = WebDriverWait(context.driver, 30)
+    username_input = wait.until(EC.presence_of_element_located(
+        (By.XPATH, '/html/body/div[1]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[1]/div/div[2]/input')))
+    assert True == username_input.is_displayed()
     username_input.send_keys(username)
 
 @when('I enter "{password}" as password')
 def step_impl(context, password):
-    password_input = context.driver.find_element_by_id("txtPassword")
+    wait = WebDriverWait(context.driver, 30)
+    password_input = wait.until(EC.presence_of_element_located(
+        (By.XPATH, '/html/body/div[1]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[2]/div/div[2]/input')))
+    assert True == password_input.is_displayed()
     password_input.send_keys(password)
 
 @when('I click on the login button')
 def step_impl(context):
-    login_button = context.driver.find_element_by_id("btnLogin")
+    wait = WebDriverWait(context.driver, 30)
+    login_button = wait.until(EC.presence_of_element_located(
+        (By.XPATH, '/html/body/div[1]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[3]/button')))
+    assert True == login_button.is_displayed()
     login_button.click()
 
 @then('I should be logged in successfully')
 def step_impl(context):
-    assert "dashboard" in context.driver.current_url.lower()
+    wait = WebDriverWait(context.driver, 30)
+    dashboard_heading = wait.until(EC.presence_of_element_located(
+        (By.XPATH, '/html/body/div[1]/div[1]/div[1]/header/div[1]/div[1]/span/h6')))
+    assert True == dashboard_heading.is_displayed()
     context.driver.quit()
